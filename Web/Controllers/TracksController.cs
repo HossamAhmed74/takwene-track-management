@@ -17,7 +17,7 @@ public class TracksController : ControllerBase
         _trackService = trackService;
     }
 
-    [HttpPost]
+    [HttpPost("CreateTrack")]
     public async Task<ActionResult<TrackDetailResponse>> Create(
         [FromBody] TrackCreateDto request
     )
@@ -26,7 +26,8 @@ public class TracksController : ControllerBase
         return Created($"/api/tracks/{response.Id}", response);
     }
 
-    [HttpGet]
+    [Authorize]
+    [HttpGet("GetAllTracks")]
     public async Task<ActionResult<IReadOnlyList<TrackListItemResponseDto>>> GetTracks(
         [FromQuery] TrackQueryDto query
     )
@@ -35,7 +36,7 @@ public class TracksController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("GetTrackById/{id}")]
     public async Task<ActionResult<TrackDetailResponse>> GetTrackById(int id)
     {
         var response = await _trackService.GetByIdAsync(id);

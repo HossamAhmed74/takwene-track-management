@@ -15,7 +15,7 @@ public class ArtistsController : ControllerBase
         _artistService = artistService;
     }
 
-    [HttpPost]
+    [HttpPost("CreateArtist")]
     public async Task<ActionResult<ArtistResponseDto>> Create(
         [FromBody] ArtistCreateDto request
     )
@@ -24,7 +24,7 @@ public class ArtistsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet]
+    [HttpGet("GetAllArtists")]
     public async Task<ActionResult<IReadOnlyList<ArtistResponseDto>>> GetAll()
     {
         var response = await _artistService.GetAllAsync();

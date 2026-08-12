@@ -14,6 +14,7 @@ namespace Application
 
             services.AddScoped<ArtistService>();
             services.AddScoped<TrackService>();
+            services.AddScoped<AuthService>();
 
         }
     }

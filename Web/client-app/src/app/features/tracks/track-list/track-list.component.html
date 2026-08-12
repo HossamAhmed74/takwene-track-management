@@ -1,0 +1,39 @@
+<section class="page">
+  <div class="page-header">
+    <h1>Tracks</h1>
+    <div class="filter">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter" [(ngModel)]="statusFilter" (ngModelChange)="onFilterChange()">
+        <option value="">All</option>
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="loading()" class="state">Loading tracks…</div>
+  <div *ngIf="error()" class="state error">{{ error() }}</div>
+
+  <table *ngIf="!loading() && !error()" class="track-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Genre</th>
+        <th>Status</th>
+        <th>Release date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let track of tracks()" [routerLink]="['/tracks', track.id]" class="row-link">
+        <td>{{ track.title }}</td>
+        <td>{{ track.artistName ?? ('Artist #' + track.artistId) }}</td>
+        <td>{{ track.genre }}</td>
+        <td><span class="badge" [class]="'badge-' + track.status">{{ track.status }}</span></td>
+        <td>{{ track.releaseDate | date: 'mediumDate' }}</td>
+      </tr>
+      <tr *ngIf="tracks().length === 0">
+        <td colspan="5" class="state">No tracks match this filter.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

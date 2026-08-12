@@ -1,0 +1,16 @@
+<header class="topbar">
+  <div class="brand">🎵 Track Management</div>
+</header>
+
+<div class="token-box" *ngIf="showTokenBox()">
+  <input
+    type="text"
+    placeholder="Paste JWT token here (obtained per README)"
+    [(ngModel)]="tokenInput"
+  />
+  <button (click)="saveToken()">Save</button>
+</div>
+
+<main>
+  <router-outlet />
+</main>

@@ -1,0 +1,62 @@
+<section class="page">
+  <a routerLink="/tracks" class="back-link">&larr; Back to tracks</a>
+
+  <div *ngIf="loading()" class="state">Loading track…</div>
+  <div *ngIf="error()" class="state error">{{ error() }}</div>
+
+  <ng-container *ngIf="!loading() && !error() && track() as t">
+    <div class="header">
+      <h1>{{ t.title }}</h1>
+      <span class="badge" [class]="'badge-' + t.status">{{ t.status }}</span>
+    </div>
+
+    <dl class="meta-grid">
+      <div><dt>Artist</dt><dd>{{ t.artistName ?? ('Artist #' + t.artistId) }}</dd></div>
+      <div><dt>ISRC</dt><dd>{{ t.isrc }}</dd></div>
+      <div><dt>Genre</dt><dd>{{ t.genre }}</dd></div>
+      <div><dt>Release date</dt><dd>{{ t.releaseDate | date: 'mediumDate' }}</dd></div>
+    </dl>
+
+    <h2>DSP distribution</h2>
+    <table class="dist-table" *ngIf="t.distributions?.length; else noDistributions">
+      <thead>
+        <tr>
+          <th>DSP</th>
+          <th>Status</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of t.distributions">
+          <td>{{ d.dspName ?? ('DSP #' + d.dspId) }}</td>
+          <td><span class="badge" [class]="'badge-' + d.status">{{ d.status }}</span></td>
+          <td>{{ d.submittedAt | date: 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noDistributions>
+      <p class="state">Not yet submitted to any DSP.</p>
+    </ng-template>
+
+    <div class="distribute-panel" *ngIf="dsps().length">
+      <h3>Submit to DSPs</h3>
+      <div class="dsp-checkboxes">
+        <label *ngFor="let dsp of dsps()">
+          <input
+            type="checkbox"
+            [checked]="selectedDspIds().includes(dsp.id)"
+            (change)="toggleDsp(dsp.id, $any($event.target).checked)"
+          />
+          {{ dsp.name }}
+        </label>
+      </div>
+      <button
+        (click)="submitDistribution()"
+        [disabled]="submitting() || selectedDspIds().length === 0"
+      >
+        {{ submitting() ? 'Submitting…' : 'Submit to selected DSPs' }}
+      </button>
+      <p class="state error" *ngIf="actionError()">{{ actionError() }}</p>
+    </div>
+  </ng-container>
+</section>

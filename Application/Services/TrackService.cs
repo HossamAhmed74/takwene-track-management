@@ -66,7 +66,7 @@ public class TrackService
                 Isrc = track.Isrc,
                 ReleaseDate = track.ReleaseDate,
                 Genre = track.Genre,
-                Status = track.Status
+                Status = MapTrackStatus(track.Status)
             })
             .ToList();
     }
@@ -147,7 +147,7 @@ public class TrackService
             Isrc = track.Isrc,
             ReleaseDate = track.ReleaseDate,
             Genre = track.Genre,
-            Status = track.Status,
+            Status = MapTrackStatus(track.Status),
             Distributions = track.Distributions
                 .OrderBy(distribution => distribution.Dsp?.Name ?? string.Empty)
                 .Select(distribution => new TrackDistributionResponseDto
@@ -158,9 +158,31 @@ public class TrackService
                     DspId = distribution.DspId,
                     DspName = distribution.Dsp?.Name ?? string.Empty,
                     SubmittedAt = distribution.SubmittedAt,
-                    Status = distribution.Status
+                    Status = MapTrackDistribution(distribution.Status)
                 })
                 .ToList()
+        };
+    }
+
+    private static string MapTrackStatus(TrackStatus status)
+    {
+        return status switch
+        {
+            TrackStatus.Drafted => "draft",
+            TrackStatus.Submitted => "submitted",
+            TrackStatus.Distributed => "distributed",
+            _ => "unknown"
+        };
+    }
+
+    private static string MapTrackDistribution(DistributionStatus status)
+    {
+        return status switch
+        {
+            DistributionStatus.Pending => "pending",
+            DistributionStatus.Live => "live",
+            DistributionStatus.Rejected => "rejected",
+            _ => "unknown"
         };
     }
 }

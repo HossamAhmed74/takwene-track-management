@@ -1,0 +1,164 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #475467;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.state {
+  padding: 2rem 0;
+  text-align: center;
+  color: #667085;
+}
+
+.state.error {
+  color: #b42318;
+  text-align: left;
+  padding: 0.5rem 0;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+}
+
+.meta-grid dt {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: #667085;
+  margin-bottom: 0.2rem;
+}
+
+.meta-grid dd {
+  margin: 0;
+  font-size: 1rem;
+  color: #101828;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.dist-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+  margin-bottom: 2rem;
+}
+
+.dist-table th {
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #667085;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.dist-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #f2f4f7;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-draft, .badge-pending {
+  background: #eaecf0;
+  color: #344054;
+}
+
+.badge-submitted {
+  background: #fef0c7;
+  color: #93370d;
+}
+
+.badge-distributed, .badge-live {
+  background: #d1fadf;
+  color: #05603a;
+}
+
+.badge-rejected {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.distribute-panel {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
+}
+
+.dsp-checkboxes {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.dsp-checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}
+
+button {
+  background: #182230;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #d0d5dd;
+  cursor: not-allowed;
+}

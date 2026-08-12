@@ -11,6 +11,6 @@ namespace Application.DTOs.Tracks
         public string Isrc { get; set; } = string.Empty;
         public DateTime ReleaseDate { get; set; }
         public string Genre { get; set; } = string.Empty;
-        public TrackStatus Status { get; set; }
+        public string Status { get; set; } = string.Empty;
     }
 }

@@ -16,43 +16,57 @@ namespace Application.Services
             _configuration = configuration;
         }
 
-        public AuthResponseDto Login(LoginRequestDto request, CancellationToken ct)
+        public Task<AuthResponseDto> LoginAsync(LoginRequestDto request)
         {
-            // Dummy validation for the task (In production, check DB and hash passwords)
+            // Dummy user validation for the task.
+            // In production, this should check a real user table and hashed password.
             if (request.Email != "admin@takwene.com" || request.Password != "Password123!")
             {
-                throw new InvalidOperationException("Invalid email or password.");
+                throw new InvalidDataException("Invalid email or password.");
             }
 
             var jwtSettings = _configuration.GetSection("Jwt");
+
             var secretKey = jwtSettings["SecretKey"]
                 ?? throw new InvalidOperationException("JWT SecretKey is not configured.");
 
+            var issuer = jwtSettings["Issuer"];
+            var audience = jwtSettings["Audience"];
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var credentials = new SigningCredentials(
+                key,
+                SecurityAlgorithms.HmacSha256
+            );
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, request.Email),
                 new Claim(JwtRegisteredClaimNames.Email, request.Email),
-                new Claim(ClaimTypes.Role, "Admin")
+                new Claim(ClaimTypes.Role, "Admin"),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
+            var expiration = DateTime.UtcNow.AddHours(2);
+
             var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"],
+                issuer: issuer,
+                audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
-                signingCredentials: creds
+                expires: expiration,
+                signingCredentials: credentials
             );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new AuthResponseDto
+            var response = new AuthResponseDto
             {
                 Token = tokenString,
-                Expiration = token.ValidTo
+                Expiration = expiration
             };
+
+            return Task.FromResult(response);
         }
     }
 }

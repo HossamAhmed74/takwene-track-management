@@ -79,7 +79,19 @@ namespace Web
 
             builder.Services.AddAuthorization();
 
+            // --- CORS for the Angular dev server ---
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AngularDev", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
+
 
             // --- Apply migrations + seed data ---
             using (var scope = app.Services.CreateScope())
@@ -98,10 +110,11 @@ namespace Web
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();   // must come BEFORE UseAuthorization
+            app.UseAuthentication();  
             app.UseAuthorization();
 
             app.MapControllers();
+            app.UseCors("AngularDev");
 
             app.Run();
         }
