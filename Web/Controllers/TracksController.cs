@@ -26,7 +26,6 @@ public class TracksController : ControllerBase
         return Created($"/api/tracks/{response.Id}", response);
     }
 
-    [Authorize]
     [HttpGet("GetAllTracks")]
     public async Task<ActionResult<IReadOnlyList<TrackListItemResponseDto>>> GetTracks(
         [FromQuery] TrackQueryDto query
